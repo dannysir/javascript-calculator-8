@@ -1,5 +1,5 @@
-import App from "../src/App.js";
-import { MissionUtils } from "@woowacourse/mission-utils";
+import App from '../src/App.js';
+import { MissionUtils } from '@woowacourse/mission-utils';
 
 const mockQuestions = (inputs) => {
   MissionUtils.Console.readLineAsync = jest.fn();
@@ -11,33 +11,47 @@ const mockQuestions = (inputs) => {
 };
 
 const getLogSpy = () => {
-  const logSpy = jest.spyOn(MissionUtils.Console, "print");
+  const logSpy = jest.spyOn(MissionUtils.Console, 'print');
   logSpy.mockClear();
   return logSpy;
 };
 
-describe("문자열 계산기", () => {
-  test("커스텀 구분자 사용", async () => {
-    const inputs = ["//;\\n1"];
+describe('문자열 계산기', () => {
+  test('커스텀 구분자 사용', async () => {
+    const inputs = ['//;\\n1', '//!\n1,2!3', '//dannysir\n1dannysir2'];
     mockQuestions(inputs);
 
     const logSpy = getLogSpy();
-    const outputs = ["결과 : 1"];
+    const answer = ['1', '6', '3'];
+    const result = '결과 : ';
 
     const app = new App();
     await app.run();
 
-    outputs.forEach((output) => {
-      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(output));
+    answer.forEach((output) => {
+      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(result + output));
     });
   });
 
-  test("예외 테스트", async () => {
-    const inputs = ["-1,2,3"];
-    mockQuestions(inputs);
+  test.each(['-1,2,3', ',2,3', '1, ,3', '1,2!3'])('예외 테스트 - 입력: %s', async (input) => {
+    mockQuestions([input]);
+    const app = new App();
+    await expect(app.run()).rejects.toThrow('[ERROR]');
+  });
+
+  test('기본 구분자를 이용한 연산', async () => {
+    const input = ['1,1,1', '1:2:3', '1,1:5'];
+    mockQuestions(input);
+
+    const logSpy = getLogSpy();
+    const answer = ['3', '6', '7'];
+    const result = '결과 : ';
 
     const app = new App();
+    await app.run();
 
-    await expect(app.run()).rejects.toThrow("[ERROR]");
+    answer.forEach((answer) => {
+      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(result + answer));
+    });
   });
 });
