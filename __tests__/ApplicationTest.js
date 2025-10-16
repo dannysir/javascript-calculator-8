@@ -33,11 +33,14 @@ describe('문자열 계산기', () => {
     });
   });
 
-  test.each(['-1,2,3', ',2,3', '1, ,3', '1,2!3'])('예외 테스트 - 입력: %s', async (input) => {
-    mockQuestions([input]);
-    const app = new App();
-    await expect(app.run()).rejects.toThrow('[ERROR]');
-  });
+  test.each(['-1,2,3', ',2,3', '1, ,3', '1,2!3', '1,,2'])(
+    '예외 테스트 - 입력: %s',
+    async (input) => {
+      mockQuestions([input]);
+      const app = new App();
+      await expect(app.run()).rejects.toThrow('[ERROR]');
+    }
+  );
 
   test('기본 구분자를 이용한 연산', async () => {
     const input = ['1,1,1', '1:2:3', '1,1:5'];
