@@ -12,5 +12,10 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "rules": {}
+  "rules": {
+    "import/extensions": ["error", "ignorePackages", {
+      "js": "always"
+    }]
+  },
+  "class-methods-use-this": "off"
 }
