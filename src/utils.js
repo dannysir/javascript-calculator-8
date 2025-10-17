@@ -1,14 +1,14 @@
 export const findCustomDiv = (input) => {
-  let answer = '';
-
-  for (let i = 0; i < input.length; i++) {
-    const str = input[i];
-  }
-
-  return answer;
+  if (input[0] === '/' && input[1] === '/') {
+    const splitCustomInput = input.slice(2).split('\\n');
+    if (splitCustomInput.length === 2) {
+      return splitCustomInput;
+    } else return null;
+  } else return null;
 };
 
 export const splitString = (input, div) => {
-  let answer = [];
-  return answer;
+  const separators = new RegExp(`[${div.join('')}]`);
+
+  return input.split(separators);
 };
