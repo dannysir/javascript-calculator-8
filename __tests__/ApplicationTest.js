@@ -18,11 +18,11 @@ const getLogSpy = () => {
 
 describe('문자열 계산기', () => {
   test('커스텀 구분자 사용', async () => {
-    const inputs = ['//;\\n1', '//!\\n1,2!3', '//dannysir\\n1dannysir2'];
+    const inputs = ['//;\\n1', '//!\\n1,2!3', '//dannysir\\n1dannysir2', '//   \\n1,2   7'];
     mockQuestions(inputs);
 
     const logSpy = getLogSpy();
-    const answer = ['1', '6', '3'];
+    const answer = ['1', '6', '3', '10'];
     const result = '결과 : ';
 
     const app = new App();
@@ -33,7 +33,7 @@ describe('문자열 계산기', () => {
     });
   });
 
-  test.each(['-1,2,3', ',2,3', '1, ,3', '1,2!3', '1,,2'])(
+  test.each(['-1,2,3', ',2,3', '1, ,3', '1,2!3', '1,,2', '//    \\n1,2 3'])(
     '예외 테스트 - 입력: %s',
     async (input) => {
       mockQuestions([input]);
