@@ -1,28 +1,28 @@
 import { MissionUtils } from '@woowacourse/mission-utils';
-import { checkValid, ERROR_STR, findCustomDiv, splitString } from './utils.js';
+import { checkValid, findCustomDiv, splitString } from './utils.js';
+import { DEFAULT_DELI, ERROR, OUTPUT_STRING, PLZ_INPUT_STRING } from './constants.js';
 
 class App {
   async run() {
     while (true) {
       try {
-        let input = await MissionUtils.Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
+        let input = await MissionUtils.Console.readLineAsync(PLZ_INPUT_STRING);
         if (!input) break;
         let customString = null;
         if (input[0] === '/') {
           const cs = findCustomDiv(input);
           if (!cs) {
             // 예외처리
-            throw new Error(`${ERROR_STR} 잘못된 커스텀 문자열 입력입니다.`);
+            throw new Error(ERROR.WRONG_CUSTOM_DELI);
           } else {
             [customString, input] = cs;
           }
         }
 
-        const inputArr = splitString(input, [',', ':', customString]);
+        const inputArr = splitString(input, [...DEFAULT_DELI, customString]);
 
         checkValid(inputArr);
 
-        const OUTPUT_STRING = '결과 : ';
         MissionUtils.Console.print(OUTPUT_STRING + inputArr.reduce((acc, cur) => acc + +cur, 0));
       } catch (e) {
         MissionUtils.Console.print(e.message);

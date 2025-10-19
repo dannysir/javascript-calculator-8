@@ -1,4 +1,4 @@
-export const ERROR_STR = '[ERROR]';
+import { ERROR } from './constants.js';
 
 export const findCustomDiv = (input) => {
   if (input[0] === '/' && input[1] === '/') {
@@ -27,13 +27,13 @@ export const splitString = (input, div) => {
 export const checkValid = (arr) => {
   for (const num of arr) {
     if (num === '' || num.trim() !== num) {
-      throw new Error('[ERROR] 빈 문자열 혹은 공백은 허용되지 않습니다.');
+      throw new Error(ERROR.EMPTY_STRING);
     }
     if (isNaN(num)) {
-      throw new Error('[ERROR] 숫자가 아닌 값이 포함되어 있습니다.');
+      throw new Error(ERROR.NAN);
     }
     if (Number(num) < 0) {
-      throw new Error('[ERROR] 음수는 허용되지 않습니다.');
+      throw new Error(ERROR.NEGATIVE_NUM);
     }
   }
 };
