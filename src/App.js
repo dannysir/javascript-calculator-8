@@ -6,7 +6,7 @@ class App {
     while (true) {
       try {
         let input = await MissionUtils.Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
-        if (!input || input === 'n') break;
+        if (!input) break;
         let customString = null;
         if (input[0] === '/') {
           const cs = findCustomDiv(input);
