@@ -1,12 +1,27 @@
 import { ERROR } from './constants.js';
 
-export const findCustomDiv = (input) => {
-  if (input[0] === '/' && input[1] === '/') {
-    const splitCustomInput = input.slice(2).split('\\n');
-    if (splitCustomInput.length === 2) {
-      return splitCustomInput;
-    } else return null;
+const findCustomDeli = (input) => {
+  const splitCustomInput = input.slice(2).split('\\n');
+  if (splitCustomInput.length === 2) {
+    return splitCustomInput;
   } else return null;
+};
+
+export const extractDelimiterAndContent = (input) => {
+  if (!input.startsWith('//')) {
+    return { customDeli: null, inputContent: input };
+  }
+
+  const customDeli = findCustomDeli(input);
+
+  if (!customDeli) {
+    throw new Error(ERROR.WRONG_CUSTOM_DELI);
+  }
+
+  return {
+    customDeli: customDeli[0],
+    inputContent: customDeli[1],
+  };
 };
 
 export const splitString = (input, div) => {
